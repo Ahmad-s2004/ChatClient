@@ -49,13 +49,14 @@ const Signin = () => {
                 </svg>
               </button>
             </div>
-
+            <Link to="/">
             <button
               type="submit"
               className="w-full h-12 mt-4 bg-gradient-to-r from-[#7c4dff] via-[#1d4937] to-[#7c4dff] text-white font-semibold rounded-4xl hover:opacity-90 transition-all active:scale-[0.98] shadow-lg shadow-black/20"
             >
               Sign In
             </button>
+              </Link>
           </form>
 
           <div className="mt-8 flex flex-col items-center gap-3 text-xs">
