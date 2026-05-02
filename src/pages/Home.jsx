@@ -163,7 +163,7 @@ const Home = () => {
                       <Video size={18} />
                       <span className="hidden sm:block">Meet</span>
                     </button>
-                    <button className="p-2.5 text-gray-400 hover:text-white hover:bg-gray-800 rounded-xl transition-all">
+                    <button className="hidden lg:block p-2.5 text-gray-400 hover:text-white hover:bg-gray-800 rounded-xl transition-all">
                       <Settings size={20} />
                     </button>
                   </div>
