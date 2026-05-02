@@ -9,7 +9,7 @@ import { Mail, Lock, Eye, EyeOff, ChevronRight } from 'lucide-react'
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (
-    <div className="min-h-screen bg-[#121212] flex flex-col justify-between font-sans text-gray-400 overflow-hidden">
+    <div className="min-h-screen px-5 md:px-0 bg-[#121212] flex flex-col justify-between font-sans text-gray-400 overflow-hidden">
       
       <div className="flex-grow flex items-center justify-center px-4">
         <div className="relative w-full max-w-[420px] p-8 bg-[#1e1e1e] rounded-[32px] border border-gray-800 shadow-2xl animate-in fade-in zoom-in duration-300">
