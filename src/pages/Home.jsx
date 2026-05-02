@@ -71,7 +71,7 @@ const Home = () => {
       <div className={`w-full md:w-80 flex-shrink-0 flex-col border-r border-gray-800 bg-[#121212] ${view === 'list' ? 'flex' : 'hidden md:flex'}`}>
         <div className="p-4 flex items-center justify-between">
           <span className="font-semibold text-lg text-white">Messages</span>
-          <div className="flex space-x-2 text-gray-500">
+          <div className="hidden md:flex flex space-x-2 text-gray-500">
             <ChevronLeft size={18} className="cursor-pointer hover:text-white" />
             <ChevronRight size={18} className="cursor-pointer hover:text-white" />
             <Plus size={18} className="cursor-pointer hover:text-white" />
@@ -127,11 +127,11 @@ const Home = () => {
 
         {selectedChat ? (
           <>
-            <header className="h-20 border-b border-gray-800/60 bg-[#121212]/80 backdrop-blur-md sticky top-0 z-20 flex items-center px-4 md:px-8 shadow-2xl transition-all duration-300">
+            <header className="h-20 border-b border-gray-800/60 bg-[#121212]/80 backdrop-blur-md sticky top-0 z-20 flex items-center px-0.5 md:px-8 shadow-2xl transition-all duration-300">
 
               {!isSearching ? (
                 <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-4 min-w-0">
+                  <div className="flex items-center min-w-0">
                     <button className="md:hidden p-2 hover:bg-gray-800 rounded-full" onClick={() => setView('list')}>
                       <ChevronLeft size={24} />
                     </button>
@@ -146,7 +146,7 @@ const Home = () => {
                         </div>
                       )}
                       <div className="min-w-0">
-                        <h2 className="text-lg md:text-xl font-bold text-white flex items-center gap-2 truncate">
+                        <h2 className="text-md md:text-lg font-bold text-white flex items-center gap-2 truncate">
                           {selectedChat.name}
                           <span className="hidden sm:inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                         </h2>
