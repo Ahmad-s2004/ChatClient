@@ -59,14 +59,14 @@ const Account = ({ isOpen, onClose }) => {
             <ChevronRight size={14} className="text-gray-600 group-hover:text-gray-400" />
           </button>
           
-          <button className="w-full flex items-center justify-between p-2.5 hover:bg-gray-800 rounded-xl transition-all group">
+          {/* <button className="w-full flex items-center justify-between p-2.5 hover:bg-gray-800 rounded-xl transition-all group">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
                 <Circle size={16} />
               </div>
               <span className="text-sm font-medium text-gray-200">Set Status</span>
             </div>
-          </button>
+          </button> */}
         </div>
 
         <div className="mb-2 border-t border-gray-800/50 pt-2">
@@ -91,7 +91,7 @@ const Account = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="mb-2 border-t border-gray-800/50 pt-2">
+        {/* <div className="mb-2 border-t border-gray-800/50 pt-2">
           <p className="px-3 py-2 text-[10px] font-bold text-gray-600 uppercase">Social</p>
           <button className="w-full flex items-center justify-between p-2.5 hover:bg-gray-800 rounded-xl transition-all group">
             <div className="flex items-center gap-3">
@@ -110,7 +110,7 @@ const Account = ({ isOpen, onClose }) => {
               <span className="text-sm font-medium text-gray-200">Feedback</span>
             </div>
           </button>
-        </div>
+        </div> */}
 
         <div className="mb-2 border-t border-gray-800/50 pt-2">
           <button className="w-full flex items-center justify-between p-2.5 hover:bg-gray-800 rounded-xl transition-all group">
