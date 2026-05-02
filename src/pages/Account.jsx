@@ -48,7 +48,7 @@ const Account = ({ isOpen, onClose }) => {
       <div className="p-2 max-h-[400px] overflow-y-auto custom-scrollbar">
         
         <div className="mb-2">
-          <p className="px-3 py-2 text-[10px] font-bold text-gray-600 uppercase">Account</p>
+          {/* <p className="px-3 py-2 text-[10px] font-bold text-gray-600 uppercase">Account</p> */}
           <button className="w-full flex items-center justify-between p-2.5 hover:bg-gray-800 rounded-xl transition-all group">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
@@ -70,7 +70,7 @@ const Account = ({ isOpen, onClose }) => {
         </div>
 
         <div className="mb-2 border-t border-gray-800/50 pt-2">
-          <p className="px-3 py-2 text-[10px] font-bold text-gray-600 uppercase">Preferences</p>
+          {/* <p className="px-3 py-2 text-[10px] font-bold text-gray-600 uppercase">Preferences</p> */}
           <button className="w-full flex items-center justify-between p-2.5 hover:bg-gray-800 rounded-xl transition-all group">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-orange-500/10 rounded-lg text-orange-400">
@@ -81,14 +81,14 @@ const Account = ({ isOpen, onClose }) => {
             <span className="text-[10px] text-gray-500 bg-gray-800 px-2 py-0.5 rounded-md">Dark</span>
           </button>
 
-          <button className="w-full flex items-center justify-between p-2.5 hover:bg-gray-800 rounded-xl transition-all group">
+          {/* <button className="w-full flex items-center justify-between p-2.5 hover:bg-gray-800 rounded-xl transition-all group">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400">
                 <ShieldCheck size={16} />
               </div>
               <span className="text-sm font-medium text-gray-200">Security</span>
             </div>
-          </button>
+          </button> */}
         </div>
 
         {/* <div className="mb-2 border-t border-gray-800/50 pt-2">
