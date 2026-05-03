@@ -6,13 +6,21 @@ import Setting from './pages/Setting';
 
 function App() {
 
-  const isAuthenticated = () =>{
-    const user = JSON.parse(localStorage.getItem('profile'))
-    return user?.token ? true:false
+  const isAuthenticated = () => {
+    try {
+      const profile = localStorage.getItem('profile');
+      if (!profile) return false;
+      
+      const user = JSON.parse(profile);
+      return !!(user && user.token); 
+    } catch (error) {
+      console.error("Auth check error:", error);
+      return false;
+    }
   }
 
-  const PrivateRoute = ({children}) => {
-    return isAuthenticated() ? children : <Navigate to="/signin"/>
+  const PrivateRoute = ({ children }) => {
+    return isAuthenticated() ? children : <Navigate to="/signin" replace />;
   }
 
 
