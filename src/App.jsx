@@ -30,10 +30,10 @@ function App() {
         <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
         <Route path="/setting" element={<PrivateRoute><Setting /></PrivateRoute>} />
         <Route path="/signin" element={
-          isAuthenticated()? <Signin />: <Navigate to="/"/>
+          isAuthenticated()? <Signin />: <Navigate to="/" replace/>
         } />
         <Route path="/signup" element={
-          isAuthenticated()? <Signup />: <Navigate to="/"/>
+          isAuthenticated()? <Signup />: <Navigate to="/" replace/>
         } />
       </Routes>
     </Router>
