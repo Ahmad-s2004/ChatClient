@@ -9,15 +9,15 @@ import { Mail, Lock, Eye, EyeOff, ChevronRight } from 'lucide-react'
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (
-    <div className="min-h-screen px-5 md:px-0 bg-[#121212] flex flex-col justify-between font-sans text-gray-400 overflow-hidden">
+    <div className="min-h-screen bg-[#121212] flex flex-col justify-between items-center font-sans text-gray-400 overflow-hidden">
       
       <div className="flex-grow flex items-center justify-center px-4">
         <div className="relative w-full max-w-[420px] p-8 bg-[#1e1e1e] rounded-[32px] border border-gray-800 shadow-2xl animate-in fade-in zoom-in duration-300">
           <div className="text-center mb-10">
-            <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center text-3xl font-bold text-white mx-auto mb-6 shadow-lg shadow-emerald-500/20">
+            <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6 shadow-lg shadow-emerald-500/20">
               P
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome Back</h1>
+            <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">Welcome Back</h1>
             <p className="text-sm text-gray-500">Sign in to continue to Ping</p>
           </div>
 
@@ -29,7 +29,7 @@ const Signin = () => {
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full h-14 pl-12 pr-4 bg-[#252525] border border-gray-800 focus:border-emerald-500/50 text-white rounded-2xl outline-none transition-all placeholder:text-gray-600 focus:ring-1 focus:ring-emerald-500/20"
+                className="w-full h-11 pl-12 pr-4 bg-[#252525] border border-gray-800 focus:border-emerald-500/50 text-white rounded-2xl outline-none transition-all placeholder:text-gray-600 focus:ring-1 focus:ring-emerald-500/20"
               />
             </div>
 
@@ -40,7 +40,7 @@ const Signin = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                className="w-full h-14 pl-12 pr-12 bg-[#252525] border border-gray-800 focus:border-emerald-500/50 text-white rounded-2xl outline-none transition-all placeholder:text-gray-600 focus:ring-1 focus:ring-emerald-500/20"
+                className="w-full h-11 pl-12 pr-12 bg-[#252525] border border-gray-800 focus:border-emerald-500/50 text-white rounded-2xl outline-none transition-all placeholder:text-gray-600 focus:ring-1 focus:ring-emerald-500/20"
               />
               <button 
                 onClick={() => setShowPassword(!showPassword)} 
@@ -58,7 +58,7 @@ const Signin = () => {
             <Link to="/" className="block">
               <button
                 type="submit"
-                className="w-full h-14 mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl transition-all active:scale-[0.98] shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2"
+                className="w-full h-11 mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl transition-all active:scale-[0.98] shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2"
               >
                 Sign In
                 <ChevronRight size={18} />
