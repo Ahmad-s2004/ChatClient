@@ -4,10 +4,25 @@ import {
   ChevronRight, Circle, ExternalLink, Moon, 
   HelpCircle, UserPlus, CreditCard, MessageSquareMore
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../api';
 import { Link } from 'react-router-dom';
 
 const Account = ({ isOpen, onClose }) => {
   const accountRef = useRef(null);
+
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Backend logout failed or network error:", error);
+    } finally {
+      localStorage.removeItem('profile');
+      navigate('/signin'); 
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -129,7 +144,7 @@ const Account = ({ isOpen, onClose }) => {
           to="/signin" 
           className="w-full flex items-center gap-3 p-3 hover:bg-red-500/10 rounded-xl text-red-400 transition-all duration-200">
           <LogOut size={18} />
-          <span className="text-sm font-bold">Sign Out</span>
+          <button onClick={handleSignOut} className="text-sm font-bold">Sign Out</button>
         </Link>
       </div>
     </div>

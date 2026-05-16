@@ -40,19 +40,16 @@ const Home = () => {
 
   return (
     <div className="flex h-screen bg-[#121212] text-gray-300 font-sans overflow-hidden relative">
-
-      {/* Home.jsx ke andar Account component */}
 <Account 
   isOpen={isAccountOpen} 
   onClose={() => setIsAccountOpen(false)} 
 />
 
-{/* 1. Slim Sidebar */}
 <div className="w-16 flex-shrink-0 flex flex-col items-center py-4 border-r border-gray-800 space-y-6 z-50 bg-[#121212]">
 <div
   onClick={(e) => {
-    e.stopPropagation(); // Outside click listener ko rokne ke liye
-    setIsAccountOpen(!isAccountOpen); // Toggle logic
+    e.stopPropagation(); 
+    setIsAccountOpen(!isAccountOpen);
   }}
   className={`w-10 h-10 rounded-full cursor-pointer flex items-center justify-center font-bold text-white transition-all ${
     isAccountOpen ? 'ring-2 ring-emerald-500 bg-emerald-600' : 'bg-emerald-500 hover:bg-emerald-600'
