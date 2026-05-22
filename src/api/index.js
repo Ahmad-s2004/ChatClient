@@ -6,7 +6,8 @@ const isLocal = window.location.hostname === "localhost";
 const API = axios.create({ 
   baseURL: isLocal 
     ? 'http://localhost:4550' 
-    : 'https://chat-server-three-livid.vercel.app' 
+    : 'https://chat-server-three-livid.vercel.app',
+    withCredentials:true
 });
 
 API.interceptors.request.use((req) => {
@@ -26,4 +27,4 @@ export const getChatMessages = (chatId) => API.get(`/message/${chatId}`)
 
 export const fetchUser = (id) => API.get(`/user/${id}`)
 export const searchUsers = (query) => API.get(`/user/search?query=${query}`)
-export const getCurrentUser = () => API.get('/user/')
+export const getCurrentUser = () => API.get('/user/me')

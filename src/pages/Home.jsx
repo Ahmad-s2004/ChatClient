@@ -26,7 +26,7 @@ const Home = () => {
   useEffect(() => {
     const loadCurrentUser = async () => {
       try {
-        const { data } = await getCurrentUser();
+        const {data} = await getCurrentUser();
         setCurrentUser(data);
       } catch (error) {
         console.error("Error loading current user:", error);
@@ -143,6 +143,7 @@ const Home = () => {
   handleSendMessageSubmit={handleSendMessageSubmit}
   messagesEndRef={messagesEndRef}
   socket={socket} 
+  setMessages={setMessages}
 />
     </div>
   );
