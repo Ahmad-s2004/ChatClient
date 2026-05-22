@@ -1,13 +1,12 @@
-import axios from "axios";
-
+import axios from 'axios';
 
 const isLocal = window.location.hostname === "localhost";
-
+const baseURL = isLocal 
+  ? 'http://localhost:4550' 
+  : 'https://chat-server-three-livid.vercel.app';
 const API = axios.create({ 
-  baseURL: isLocal 
-    ? 'http://localhost:4550' 
-    : 'https://chat-server-three-livid.vercel.app',
-    withCredentials:true
+  baseURL,
+  withCredentials: true 
 });
 
 API.interceptors.request.use((req) => {

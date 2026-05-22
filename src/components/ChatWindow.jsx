@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ChevronLeft, Search, Video, Plus, Calendar, Hash, Send, MessageSquare, ChartBarDecreasingIcon } from 'lucide-react';
+import { ChevronLeft, Search, Video, Plus, Calendar, Hash, Send, MessageSquare } from 'lucide-react';
 
 const ChatWindow = ({
     selectedChat, messages, currentUser, onlineUsers, view, setView,
@@ -7,6 +7,32 @@ const ChatWindow = ({
     typedMessage, setTypedMessage, handleSendMessageSubmit, messagesEndRef,
     socket, setMessages
 }) => {
+
+    useEffect(() => {
+        if (!socket) {
+            console.log("no socket found");
+            return;
+        }
+        console.log("socket found");
+    
+        const handleIncoming = (newMessage) => {
+            const activeChatId = (selectedChat?.chatId || selectedChat?._id || "").toString();
+            const incomingChatId = (newMessage.chatId || "").toString();
+            const incomingSenderId = (newMessage.senderId || "").toString();
+    
+            if (incomingChatId === activeChatId || incomingSenderId === activeChatId) {
+                setMessages((prev) => {
+                    if (prev.some(msg => msg._id === newMessage._id)) return prev;
+                    return [...prev, newMessage];
+                });
+            }
+        };
+        socket.on("receive_message", handleIncoming);
+    
+        return () => {
+            socket.off("receive_message", handleIncoming);
+        };
+    }, [socket, selectedChat, setMessages]);
 
     if (!selectedChat) {
         return (
@@ -18,82 +44,32 @@ const ChatWindow = ({
     }
 
     const isSelectedUserOnline = onlineUsers.includes(selectedChat._id?.toString());
-    const selectedChatAvatar = selectedChat.img ? `https://i.pravatar.cc/150?u=${selectedChat.img}` : `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(selectedChat.name)}`;
+    const selectedChatAvatar = selectedChat.img 
+        ? `https://i.pravatar.cc/150?u=${selectedChat.img}` 
+        : `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(selectedChat.name)}`;
 
-    useEffect(() => {
-        if (!socket) return;
-    
-        const handleIncomingMessage = (newMessage) => {
-            // 1. Pehle pure message ko print karo taake inspect element me structure dikhe
-            console.log("SOCKET INCOMING PACKET:", newMessage);
-    
-            // 2. Window ki Active ID nikalen
-            const activeChatId = (selectedChat?.chatId || selectedChat?._id || selectedChat)?.toString();
-            
-            // 3. Fallback lagao taake agar backend 'chat' ya 'sender' bhej raha ho toh code crash ya fail na ho
-            const incomingChatId = (newMessage?.chatId || newMessage?.chat)?._id?.toString() || (newMessage?.chatId || newMessage?.chat)?.toString();
-            const incomingSenderId = (newMessage?.senderId || newMessage?.sender)?._id?.toString() || (newMessage?.senderId || newMessage?.sender)?.toString();
-    
-            console.log("DEBUG MATCHING:", {
-                activeChatId,
-                incomingChatId,
-                incomingSenderId,
-                isMatch: (incomingChatId === activeChatId || incomingSenderId === activeChatId)
-            });
-    
-            // 4. Match validation or temporary Bypass (agar matching test karni ho)
-            if (incomingChatId === activeChatId || incomingSenderId === activeChatId || !incomingChatId) {
-                setMessages((prev) => {
-                    // Agar bina _id ke real-time instant packet aa raha hai toh content duplicate check lagao
-                    const alreadyExists = prev.some(msg => 
-                        (msg._id && msg._id === newMessage._id) || 
-                        (msg.content === newMessage.content && Math.abs(new Date(msg.createdAt) - new Date(newMessage.createdAt)) < 2000)
-                    );
-                    
-                    if (alreadyExists) {
-                        console.log("❌ Message already exists in state, skipping.");
-                        return prev;
-                    }
-                    
-                    console.log("✅ Message state me push ho rha ha!");
-                    return [...prev, newMessage];
-                });
-            } else {
-                console.log("⚠️ Message drop ho gya kyunki ID match nahi hui.");
-            }
-        };
-    
-        socket.on("receive_message", handleIncomingMessage);
+        const onFormSubmit = async (e) => {
+            e.preventDefault();
+            const text = typedMessage.trim();
+            if (!text) return;
         
-        return () => {
-            socket.off("receive_message", handleIncomingMessage);
-        };
-    }, [socket, selectedChat, setMessages]);;
-
-    const onFormSubmit = async (e) => {
-        e.preventDefault();
-        if (!typedMessage.trim()) return;
-
-        try {
-            const chatIdentifier = selectedChat.chatId || selectedChat._id;
-            const receiverId = selectedChat._id;
-
-            if (socket) {
-                socket.emit("send_message", {
-                    chatId: chatIdentifier,
-                    senderId: currentUser?._id,
-                    receiverId: receiverId,
-                    content: typedMessage,
-                    createdAt: new Date().toISOString()
-                });
-                console.log(currentUser._id)
+            try {
+                await handleSendMessageSubmit(e);
+        
+                if (socket) {
+                    socket.emit("join_room", currentUser?._id);
+                    socket.emit("send_message", {
+                        chatId: selectedChat.chatId || selectedChat._id,
+                        senderId: currentUser?._id,
+                        receiverId: selectedChat._id,
+                        content: text,
+                        createdAt: new Date().toISOString()
+                    });
+                }
+            } catch (error) {
+                console.error(error);
             }
-            await handleSendMessageSubmit(e);
-
-        } catch (error) {
-            console.error("Socket emit/send execution broken:", error);
-        }
-    };
+        };
 
     return (
         <div className={`flex-1 flex flex-col min-w-0 bg-[#121212] ${view === 'chat' ? 'flex' : 'hidden md:flex'}`}>
@@ -112,8 +88,7 @@ const ChatWindow = ({
                                 ) : (
                                     <div className="relative flex-shrink-0">
                                         <img src={selectedChatAvatar} className="w-12 h-12 rounded-full border-2 border-emerald-500/20" alt="avatar" />
-                                        <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 border-2 border-[#121212] rounded-full ${isSelectedUserOnline ? 'bg-green-500' : 'bg-gray-500'
-                                            }`}></div>
+                                        <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 border-2 border-[#121212] rounded-full ${isSelectedUserOnline ? 'bg-green-500' : 'bg-gray-500'}`}></div>
                                     </div>
                                 )}
                                 <div className="min-w-0">
@@ -166,17 +141,13 @@ const ChatWindow = ({
                     messages
                         .filter(msg => msg.content?.toLowerCase().includes(chatSearchQuery.toLowerCase()))
                         .map((msg, index) => {
-
-                            const msgSenderId = (msg.senderId?._id || msg.senderId || "").toString();
-                            const currentUserId = (currentUser?._id || currentUser || "").toString();
-                            const isMe = msgSenderId === currentUserId && currentUserId !== "";
-
+                            const isMe = (msg.senderId?._id || msg.senderId || "").toString() === (currentUser?._id || "").toString();
                             const userAvatar = isMe
                                 ? `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(currentUser?.name || 'You')}`
                                 : `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(selectedChat.name)}`;
 
                             return (
-                                <div key={msg._id || index} className={`flex space-x-3 md:space-x-4 ${isMe ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                                    <div key={`${msg._id}-${index}`} className={`flex space-x-3 md:space-x-4 ${isMe ? 'flex-row-reverse space-x-reverse' : ''}`}>
                                     <img src={userAvatar} className="w-10 h-10 rounded-full flex-shrink-0 object-cover" alt="user" />
                                     <div className={`flex flex-col ${isMe ? 'items-end' : 'items-start'} flex-1 min-w-0`}>
                                         <div className="flex items-center space-x-2 mb-1">
@@ -185,8 +156,7 @@ const ChatWindow = ({
                                                 {msg.createdAt ? new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Just now"}
                                             </span>
                                         </div>
-                                        <div className={`border rounded-2xl p-4 shadow-lg max-w-2xl text-white text-sm break-words whitespace-pre-wrap ${isMe ? 'bg-emerald-600/20 border-emerald-500/20' : 'bg-[#1a2b3b] border-blue-900/30'
-                                            }`}>
+                                        <div className={`border rounded-2xl p-4 shadow-lg max-w-2xl text-white text-sm break-words whitespace-pre-wrap ${isMe ? 'bg-emerald-600/20 border-emerald-500/20' : 'bg-[#1a2b3b] border-blue-900/30'}`}>
                                             {msg.content}
                                         </div>
                                     </div>

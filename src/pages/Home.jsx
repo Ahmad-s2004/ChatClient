@@ -29,7 +29,7 @@ const Home = () => {
         const {data} = await getCurrentUser();
         setCurrentUser(data);
       } catch (error) {
-        console.error("Error loading current user:", error);
+        console.error("Error in loading current user", error);
       }
     };
     loadCurrentUser();
